@@ -2,4 +2,5 @@
     <string name="app_name">Robot Pattern Sample</string>
     <string name="welcome_username_hint">Github Username</string>
     <string name="welcome_confirm_button">Confirm</string>
+    <string name="errors_api_failure">API Failure</string>
 </resources>

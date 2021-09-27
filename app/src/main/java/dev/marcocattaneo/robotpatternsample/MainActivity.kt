@@ -5,20 +5,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
-import dev.marcocattaneo.robotpatternsample.presentation.BaseViewModel
 import dev.marcocattaneo.robotpatternsample.presentation.Route
 import dev.marcocattaneo.robotpatternsample.presentation.detail.RepoDetail
+import dev.marcocattaneo.robotpatternsample.presentation.detail.RepoDetailViewModel
 import dev.marcocattaneo.robotpatternsample.presentation.list.RepoList
-import dev.marcocattaneo.robotpatternsample.presentation.state.VMState
+import dev.marcocattaneo.robotpatternsample.presentation.list.RepoListViewModel
 import dev.marcocattaneo.robotpatternsample.presentation.welcome.WelcomeScreen
+import dev.marcocattaneo.robotpatternsample.presentation.welcome.WelcomeViewModel
 import dev.marcocattaneo.robotpatternsample.ui.theme.RobotPatternSampleTheme
 
 @AndroidEntryPoint
@@ -34,37 +32,35 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     NavHost(navController = navController, startDestination = Route.Welcome.path) {
 
-                        composable(
+                        composable<WelcomeViewModel>(
+                            navHostController = navController,
                             route = Route.Welcome
-                        ) {
-                            WelcomeScreen(provideViewModel(navController))
+                        ) { _, vm ->
+                            WelcomeScreen(vm)
                         }
 
-                        composable(
-                            route = Route.RepoList,
-                            arguments = listOf(navArgument("username") { type = NavType.StringType })
-                        ) { backStackEntry ->
-                            RepoList(provideViewModel(navController), backStackEntry.arguments?.getString("username"))
+                        composable<RepoListViewModel>(
+                            route = Route.RepoList(""),
+                            navHostController = navController,
+                            arguments = listOf(navArgument("username") {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry, vm ->
+                            RepoList(vm, backStackEntry.arguments?.getString("username"))
                         }
 
-                        composable(
-                            route = Route.RepoDetail,
+                        composable<RepoDetailViewModel>(
+                            route = Route.RepoDetail(-1),
+                            navHostController = navController,
                             arguments = listOf(navArgument("id") { type = NavType.LongType })
-                        ) { backStackEntry ->
-                            RepoDetail(provideViewModel(navController), backStackEntry.arguments?.getLong("id"))
+                        ) { backStackEntry, vm ->
+                            RepoDetail(vm, backStackEntry.arguments?.getLong("id"))
                         }
 
                     }
                 }
             }
         }
-    }
-
-    @Composable
-    private inline fun <VMS: VMState, reified VM : BaseViewModel<VMS>> provideViewModel(navHostController: NavHostController): VM {
-        val vm = hiltViewModel<VM>()
-        vm.registerNavHostController(navHostController = navHostController)
-        return vm
     }
 
 }

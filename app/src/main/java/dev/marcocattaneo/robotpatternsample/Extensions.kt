@@ -1,18 +1,31 @@
 package dev.marcocattaneo.robotpatternsample
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDeepLink
-import androidx.navigation.NavGraphBuilder
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.*
 import androidx.navigation.compose.composable
+import dev.marcocattaneo.robotpatternsample.presentation.common.StateViewModel
 import dev.marcocattaneo.robotpatternsample.presentation.Route
+import dev.marcocattaneo.robotpatternsample.presentation.common.BaseViewModel
+import dev.marcocattaneo.robotpatternsample.presentation.common.ScreenContainer
+import dev.marcocattaneo.robotpatternsample.presentation.state.VMState
 
-fun NavGraphBuilder.composable(
+inline fun <reified VM : BaseViewModel> NavGraphBuilder.composable(
     route: Route,
+    navHostController: NavHostController,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    content: @Composable (NavBackStackEntry) -> Unit
+    crossinline content: @Composable (NavBackStackEntry, VM) -> Unit
 ) {
-    composable(route.path, arguments, deepLinks, content)
+    composable(route.path, arguments, deepLinks) {
+        val vm = hiltViewModel<VM>()
+        vm.registerNavHostController(navHostController = navHostController)
+
+        ScreenContainer(
+            baseViewModel = vm,
+            content = {
+                content(it, vm)
+            }
+        )
+    }
 }
