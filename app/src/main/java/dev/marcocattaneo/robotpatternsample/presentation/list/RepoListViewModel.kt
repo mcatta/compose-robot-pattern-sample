@@ -1,5 +1,7 @@
 package dev.marcocattaneo.robotpatternsample.presentation.list
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.marcocattaneo.robotpatternsample.R
@@ -33,5 +35,8 @@ class RepoListViewModel @Inject constructor(
             }
         }
     }
+
+    @Composable
+    override fun getSectionHeaderTitle() = stringResource(id = R.string.list_header)
 
 }

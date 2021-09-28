@@ -18,9 +18,8 @@ import dev.marcocattaneo.robotpatternsample.ui.theme.Dimen
 fun WelcomeScreen(welcomeViewModel: WelcomeViewModel) {
     val uiState by welcomeViewModel.uiState.collectAsState()
 
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
+    Card(
+        modifier = Modifier.fillMaxWidth(),
         elevation = Dimen.DefaultElevation
     ) {
         Column(

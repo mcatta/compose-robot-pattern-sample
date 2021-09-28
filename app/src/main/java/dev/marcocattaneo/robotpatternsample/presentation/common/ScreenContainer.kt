@@ -8,7 +8,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import dev.marcocattaneo.robotpatternsample.ui.ds.Header
 import dev.marcocattaneo.robotpatternsample.ui.theme.Dimen
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -20,13 +23,17 @@ fun ScreenContainer(
     val uiErrorState by baseViewModel.uiErrorState.collectAsState()
 
     Box {
+        Header(
+            modifier = Modifier.align(Alignment.TopStart),
+            title = baseViewModel.getSectionHeaderTitle()
+        )
         uiErrorState?.let {
             Card(
                 elevation = Dimen.DefaultElevation,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(Dimen.Large),
-                backgroundColor = MaterialTheme.colors.primary,
+                backgroundColor = MaterialTheme.colors.error,
                 onClick = {
                     baseViewModel.dismissError()
                 }
@@ -34,13 +41,19 @@ fun ScreenContainer(
                 Text(
                     modifier = Modifier.padding(Dimen.Normal),
                     text = it.format(),
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.onError
                 )
             }
         }
         Column(
             content = content,
-            modifier = Modifier.padding(Dimen.Large)
+            modifier = Modifier
+                .padding(
+                    top = 64.dp,    // Workaround, the best practice should be to use ConstraintLayout
+                    start = Dimen.Large,
+                    end = Dimen.Large,
+                    bottom = Dimen.Large
+                )
         )
     }
 }

@@ -3,4 +3,6 @@
     <string name="welcome_username_hint">Github Username</string>
     <string name="welcome_confirm_button">Confirm</string>
     <string name="errors_api_failure">API Failure</string>
+    <string name="welcome_header">Show user repositories</string>
+    <string name="list_header">Repository list</string>
 </resources>
