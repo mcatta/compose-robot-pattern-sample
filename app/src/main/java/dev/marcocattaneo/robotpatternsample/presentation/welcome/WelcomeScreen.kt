@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.robotpatternsample.R
+import dev.marcocattaneo.robotpatternsample.ui.ds.InputField
 import dev.marcocattaneo.robotpatternsample.ui.theme.Dimen
 
 @Composable
@@ -25,13 +26,11 @@ fun WelcomeScreen(welcomeViewModel: WelcomeViewModel) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            OutlinedTextField(
+            InputField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState?.username ?: "",
                 onValueChange = welcomeViewModel::onChangeUsername,
-                placeholder = {
-                    Text(text = stringResource(id = R.string.welcome_username_hint))
-                }
+                placeholder = stringResource(id = R.string.welcome_username_hint)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(

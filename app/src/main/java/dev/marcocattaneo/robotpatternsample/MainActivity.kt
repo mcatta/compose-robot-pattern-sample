@@ -11,9 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import dev.marcocattaneo.robotpatternsample.presentation.Route
-import dev.marcocattaneo.robotpatternsample.presentation.detail.RepoDetail
+import dev.marcocattaneo.robotpatternsample.presentation.detail.RepoDetailScreen
 import dev.marcocattaneo.robotpatternsample.presentation.detail.RepoDetailViewModel
-import dev.marcocattaneo.robotpatternsample.presentation.list.RepoList
+import dev.marcocattaneo.robotpatternsample.presentation.list.RepoListScreen
 import dev.marcocattaneo.robotpatternsample.presentation.list.RepoListViewModel
 import dev.marcocattaneo.robotpatternsample.presentation.welcome.WelcomeScreen
 import dev.marcocattaneo.robotpatternsample.presentation.welcome.WelcomeViewModel
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                                 type = NavType.StringType
                             })
                         ) { backStackEntry, vm ->
-                            RepoList(vm, backStackEntry.arguments?.getString("username"))
+                            RepoListScreen(vm, backStackEntry.arguments?.getString("username"))
                         }
 
                         composable<RepoDetailViewModel>(
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                             navHostController = navController,
                             arguments = listOf(navArgument("id") { type = NavType.LongType })
                         ) { backStackEntry, vm ->
-                            RepoDetail(vm, backStackEntry.arguments?.getLong("id"))
+                            RepoDetailScreen(vm, backStackEntry.arguments?.getLong("id"))
                         }
 
                     }

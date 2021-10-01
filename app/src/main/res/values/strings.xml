@@ -5,4 +5,5 @@
     <string name="errors_api_failure">API Failure</string>
     <string name="welcome_header">Show user repositories</string>
     <string name="list_header">Repository list</string>
+    <string name="welcome_username_sem">Username field</string>
 </resources>

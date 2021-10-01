@@ -12,12 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import dev.marcocattaneo.robotpatternsample.domain.domain.GithubRepo
 import dev.marcocattaneo.robotpatternsample.ui.theme.Dimen
 
 @Composable
-fun RepoList(repoListViewModel: RepoListViewModel, username: String?) {
+fun RepoListScreen(repoListViewModel: RepoListViewModel, username: String?) {
     val uiState by repoListViewModel.uiState.collectAsState()
 
     repoListViewModel.fetch(username)
@@ -36,6 +39,9 @@ private fun RepoItem(repository: GithubRepo) {
     Card(
         elevation = Dimen.DefaultElevation,
         modifier = Modifier
+            .semantics {
+                testTag = "repoItem"
+            }
             .padding(Dimen.Normal)
             .fillMaxWidth()
     ) {
